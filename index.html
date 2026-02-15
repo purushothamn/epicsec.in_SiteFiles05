@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epics SecTech & Research</title>
+    <style>
+        :root {
+            /* Cyber-Noir Palette */
+            --bg-color: #050505;       
+            --card-bg: #111111;        
+            --text-main: #e0e0e0;      
+            --text-muted: #888888;     
+            --accent: #00f2ff;         /* Cyan Spectrum */
+            --accent-gradient: linear-gradient(90deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Metatron's Cube Background */
+        .bg-cube {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vw;
+            max-width: 600px;
+            height: 80vw;
+            max-height: 600px;
+            background-image: url('cube.png'); /* Ensure you have this file */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            opacity: 0.15; /* 15% Opacity as requested */
+            z-index: -1;
+            pointer-events: none;
+            filter: grayscale(100%) contrast(1.2);
+        }
+
+        /* Mobile Container Restraint */
+        .container {
+            max-width: 480px; 
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header / Branding */
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin: 0 0 5px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .role {
+            color: var(--accent);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        /* Prism Accent Line */
+        .spectrum-line {
+            height: 2px;
+            width: 100%;
+            background: var(--accent-gradient);
+            margin: 10px 0;
+            border-radius: 2px;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            border-left: 3px solid var(--accent);
+            padding-left: 10px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        /* Service Cards */
+        .service-card {
+            background: rgba(17, 17, 17, 0.9); /* Slight transparency for the cube to peek through */
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #222;
+            margin-bottom: 15px;
+            backdrop-filter: blur(2px);
+        }
+
+        .service-title {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        /* Typography Utilities */
+        p { margin: 0 0 10px 0; font-size: 0.95rem; }
+        .muted { color: var(--text-muted); font-size: 0.85rem; }
+        .quote { 
+            font-style: italic; 
+            border-left: 2px solid #333; 
+            padding-left: 15px; 
+            color: var(--text-muted);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background: var(--text-main);
+            color: var(--bg-color);
+            padding: 12px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+            border: 1px solid var(--text-main);
+        }
+        
+        .btn:hover {
+            background: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        a { color: var(--text-main); text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-cube"></div>
+
+    <div class="container">
+        <header>
+            <div class="spectrum-line"></div> 
+            <h1>Epics SecTech & Research</h1>
+            <div class="role">
+                Consultant | Open Source Contributor | Linguist
+            </div>
+        </header>
+
+        <section>
+            <p style="font-size: 1.1rem;">
+                Bridging the gap between <strong>Resilient Infrastructure</strong> and <strong>Impactful Presence</strong>.
+            </p>
+            <p class="muted">
+                Specializing in Data Privacy, Security Hardening, and Sustainable Tech Strategies.
+            </p>
+            <br>
+            <a href="mailto:info@epicsec.in" class="btn">Request Consultation</a>
+        </section>
+
+        <section>
+            <h2>Research & Consulting Areas</h2>
+            
+            <div class="service-card">
+                <span class="service-title">🔒 Security & Data Privacy</span>
+                <p class="muted">Hardening strategies for Information, Data, and Infrastructure. Focusing on privacy-first architecture and vulnerability assessments (ISC2 CC).</p>
+            </div>
+
+            <div class="service-card">
+                <span class="service-title">🎨 Multimedia & Social Presence</span>
+                <p class="muted">Creative technology consulting to define your digital voice and social impact.</p>
+            </div>
+            
+            <div class="service-card">
+                <span class="service-title">🌱 Sustainable Tech & Open Source</span>
+                <p class="muted">Optimizing cloud resources and integrating open-source solutions for long-term efficiency.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Philosophy</h2>
+            <div class="quote">
+                "The superior man makes the difficulty to be overcome his first interest; success only comes later."
+                <br>— Confucius
+            </div>
+        </section>
+
+        <footer style="border-top: 1px solid #333; padding-top: 20px;">
+            <p><strong>Contact</strong><br>
+            <a href="mailto:info@epicsec.in" style="text-decoration: none; color: var(--accent);">info@epicsec.in</a></p>
+            
+            <div style="margin-top: 20px; padding: 10px; background: rgba(10, 10, 10, 0.9); border-radius: 4px;">
+                <p class="muted" style="margin-bottom: 5px;"><strong>Consulting Hours (IST)</strong></p>
+                <p style="font-family: monospace;">Mon - Fri: 16:00 – 22:00</p>
+                <p class="muted" style="font-size: 0.8rem;">Meetings by Appointment Only.</p>
+            </div>
+
+            <br>
+            <p class="muted" style="font-size: 0.75rem;">© 2026 Epics SecTech & Research.<br>Bengaluru, India.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
