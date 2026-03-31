@@ -29,11 +29,25 @@
 
 /* Merkabah Background */
 .bg-cube {
-    /* ... keep position/size styles ... */
-    background-image: url('cube.svg'); /* NEW */
-    opacity: 0.95; /* Keeps it subtle */
-    /* ... */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Make the container slightly larger than the 200px viewBox */
+    width: 90vw; 
+    height: 90vw;
+    max-width: 600px;
+    max-height: 600px;
+    background-image: url('cube.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    /* Increase this to 1.0 temporarily if you still don't see it! */
+    opacity: 0.3; 
+    z-index: 0;
+    pointer-events: none;
 }
+
         
         /* Mobile Container Restraint */
         .container {
