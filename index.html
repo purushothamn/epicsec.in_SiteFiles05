@@ -15,7 +15,248 @@
             --spectrum: linear-gradient(90deg, #8e6d13, #d4af37, #fcf6ba, #d4af37, #8e6d13);
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPICS | SecOps & Media Research</title>
+    <style>
+        :root {
+            --bg: #030303;
+            --surface: rgba(10, 10, 10, 0.85);
+            --accent: #d4af37; 
+            --neon-gold: rgba(255, 215, 0, 0.25);
+            --text: #e0e0e0;
+            --text-dim: #666;
+            --spectrum: linear-gradient(90deg, #8e6d13, #d4af37, #fcf6ba, #d4af37, #8e6d13);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* --- THE CELESTIAL DUST (Particle Layer) --- */
+        .stars-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: twinkle var(--duration) ease-in-out infinite, drift var(--duration) linear infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+
+        @keyframes drift {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100px); }
+        }
+
+        /* --- THE GLACIAL ENGINE (60s Cycle) --- */
+        .merkabah-fixed-layer {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            width: 100vw; height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, rgba(139, 101, 8, 0.04) 50%, transparent 90%);
+        }
+
+        #rockstar-merkabah {
+            width: 85%; max-width: 550px;
+            animation: glacial-pulse 60s ease-in-out infinite !important;
+            filter: drop-shadow(0 0 30px var(--neon-gold));
+        }
+
+        @keyframes glacial-pulse {
+            0%, 100% { opacity: 0.25; transform: scale(1); filter: drop-shadow(0 0 15px var(--neon-gold)) blur(1px); }
+            50% { opacity: 0.6; transform: scale(1.04); filter: drop-shadow(0 0 50px var(--neon-gold)) blur(0px); }
+        }
+
+        /* --- CONTENT ARCHITECTURE --- */
+        .content-shell {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 60px 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header { margin-bottom: 60px; }
+        .brand-marker { height: 2px; width: 50px; background: var(--spectrum); margin-bottom: 25px; }
+        h1 { font-size: 2.6rem; font-weight: 900; letter-spacing: -2px; color: #fff; text-transform: uppercase; line-height: 0.9; }
+        .sub-head { color: var(--accent); font-family: monospace; font-size: 0.7rem; letter-spacing: 3px; margin-top: 10px; opacity: 0.8; }
+
+        .hero-text { font-size: 1.2rem; font-weight: 300; color: #fff; margin-bottom: 30px; border-left: 1px solid var(--accent); padding-left: 20px; }
+
+        /* GLASSY BUTTONS */
+        .action-btn {
+            display: block;
+            background: rgba(255, 255, 255, 0.03);
+            color: #fff;
+            padding: 22px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 0.75rem;
+            margin-top: 50px;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 4px;
+            backdrop-filter: blur(5px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* THE TINTED GLASSY GLOW ON PRESS */
+        .action-btn:active {
+            background: rgba(212, 175, 55, 0.15); /* Tinted gold */
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4), inset 0 0 15px rgba(212, 175, 55, 0.2);
+            transform: scale(0.98);
+            backdrop-filter: blur(15px); /* Increased glassy feel */
+        }
+
+        .action-btn:hover {
+            border-color: rgba(212, 175, 55, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        /* SERVICE CARDS */
+        .service-card {
+            background: var(--surface);
+            border: 1px solid #111;
+            padding: 30px;
+            border-radius: 2px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(12px);
+            transition: 0.6s ease;
+        }
+
+        .service-card:hover { border-color: rgba(212, 175, 55, 0.3); background: #080808; }
+
+        .section-tag { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 5px; color: #333; margin: 60px 0 20px; display: flex; align-items: center; }
+        .section-tag::after { content: ""; flex-grow: 1; height: 1px; background: #151515; margin-left: 20px; }
+
+        footer { margin-top: 120px; padding-top: 40px; border-top: 1px solid #111; }
+        .footer-mail { color: var(--accent); text-decoration: none; font-weight: bold; font-size: 1rem; letter-spacing: 1px; }
+        .legal { font-size: 0.6rem; color: #252525; margin-top: 30px; text-transform: uppercase; letter-spacing: 2px; line-height: 2; }
+    </style>
+</head>
+<body>
+
+    <div class="stars-container" id="starField"></div>
+
+    <div class="merkabah-fixed-layer">
+        <svg id="rockstar-merkabah" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="gold-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#fcf6ba;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#8e6d13;stop-opacity:0.6" />
+                </linearGradient>
+            </defs>
+            <g transform="translate(100,100)">
+                <path d="M0,-90 L78,45 L-78,45 Z" fill="none" stroke="url(#gold-glow)" stroke-width="1.3" />
+                <path d="M0,90 L-78,-45 L78,-45 Z" fill="none" stroke="url(#gold-glow)" stroke-width="1.3" />
+                <path d="M0,-90 L0,0 M78,45 L0,0 M-78,45 L0,0" stroke="rgba(212, 175, 55, 0.2)" stroke-width="0.5" />
+                <path d="M0,90 L0,0 M-78,-45 L0,0 M78,-45 L0,0" stroke="rgba(212, 175, 55, 0.2)" stroke-width="0.5" />
+                <circle cx="0" cy="0" r="2.8" fill="#fcf6ba">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="50s" repeatCount="indefinite" />
+                    <animate attributeName="r" values="2.8;3.8;2.8" dur="50s" repeatCount="indefinite" />
+                </circle>
+            </g>
+        </svg>
+    </div>
+
+    <div class="content-shell">
+        <header>
+            <div class="brand-marker"></div>
+            <h1>EPICS</h1>
+            <div class="sub-head">SYSTEMS // SIGNALS // SURVEILLANCE</div>
+        </header>
+
+        <section>
+            <div class="hero-text">
+                Hardening infrastructure. <br>
+                Amplifying presence.
+            </div>
+            <p style="color: var(--text-dim); font-size: 0.85rem; max-width: 90%;">
+                Bridging the gap between <strong>SecOps</strong> and <strong>Multimedia</strong>. Resilient engineering for the high-impact digital era.
+            </p>
+            <a href="mailto:info@epicsec.in" class="action-btn">Initiate Protocol</a>
+        </section>
+
+        <div class="section-tag">Strategic Vectors</div>
+
+        <section>
+            <div class="service-card">
+                <span style="color:var(--accent);font-family:monospace;font-size:0.65rem;margin-bottom:12px;display:block;opacity:0.6;">0x01</span>
+                <h3>Digital Fortification</h3>
+                <p>SecOps strategy, infrastructure hardening, and privacy-first architecture design.</p>
+            </div>
+            <div class="service-card">
+                <span style="color:var(--accent);font-family:monospace;font-size:0.65rem;margin-bottom:12px;display:block;opacity:0.6;">0x02</span>
+                <h3>Media Architecture</h3>
+                <p>Advanced post-production workflows, Resolve mastering, and visual identity.</p>
+            </div>
+            <div class="service-card">
+                <span style="color:var(--accent);font-family:monospace;font-size:0.65rem;margin-bottom:12px;display:block;opacity:0.6;">0x03</span>
+                <h3>Sustainable R&D</h3>
+                <p>Cloud footprint optimization via Open Source intelligence and AI system integration.</p>
+            </div>
+        </section>
+
+        <footer>
+            <p style="font-size: 0.65rem; color: #333; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 3px;">Secure Channel</p>
+            <a href="mailto:info@epicsec.in" class="footer-mail">info@epicsec.in</a>
+            <p class="legal">
+                EST. 2026 // BENGALURU, IN<br>
+                © EPICS SECTECH & RESEARCH PVT. LTD.<br>
+                OPERATING UNDER DISCREET PROTOCOL.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        const field = document.getElementById('starField');
+        const count = 35; // Minimal amount for "Dangerously Subtle"
+        for (let i = 0; i < count; i++) {
+            let star = document.createElement('div');
+            star.className = 'star';
+            let size = Math.random() * 2;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.setProperty('--duration', (Math.random() * 20 + 20) + 's');
+            field.appendChild(star);
+        }
+    </script>
+</body>
+</html>
+
 
         body {
             background-color: var(--bg);
