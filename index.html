@@ -7,12 +7,11 @@
     <style>
         :root {
             --bg: #030303;
-            --surface: rgba(10, 10, 10, 0.8);
+            --surface: rgba(10, 10, 10, 0.85);
             --accent: #00f2ff;
-            --accent-glow: rgba(0, 242, 255, 0.4);
             --secondary: #7000ff;
             --text: #e0e0e0;
-            --text-dim: #888;
+            --text-dim: #777;
             --spectrum: linear-gradient(90deg, #ff0055, #00f2ff, #7000ff);
         }
 
@@ -21,14 +20,14 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             overflow-x: hidden;
             line-height: 1.6;
             min-height: 100vh;
         }
 
-        /* --- THE MERKABAH ENGINE --- */
-        .merkabah-canvas {
+        /* THE BREATHING ENGINE */
+        .merkabah-fixed-layer {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -40,267 +39,142 @@
             justify-content: center;
             align-items: center;
             pointer-events: none;
-            
-            /* THE HALO: Mild multi-color spectrum behind the angles */
-            background: radial-gradient(circle, 
-                rgba(0, 242, 255, 0.07) 0%, 
-                rgba(112, 0, 255, 0.04) 35%, 
-                rgba(255, 0, 85, 0.02) 70%, 
-                transparent 100%);
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.08) 0%, rgba(112, 0, 255, 0.04) 40%, transparent 80%);
         }
 
-        svg#merkabah {
+        #rockstar-merkabah {
             width: 85%;
             max-width: 550px;
-            /* BREATHING ANIMATION: 10s cycle for a 'capacitated' feel */
-            animation: breathe 10s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px var(--accent-glow));
+            /* Explicit animation call */
+            animation: pulse-glow 8s ease-in-out infinite !important;
+            display: block !important;
         }
 
-        @keyframes breathe {
-            0%, 100% { 
-                opacity: 0.2; 
-                transform: scale(1);
-                filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.1));
-            }
-            50% { 
-                opacity: 0.45; 
-                transform: scale(1.03);
-                filter: drop-shadow(0 0 35px rgba(0, 242, 255, 0.5));
-            }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.15; transform: scale(1); filter: blur(1px); }
+            50% { opacity: 0.5; transform: scale(1.04); filter: blur(0px); }
         }
 
-        /* --- LAYOUT & CONTENT --- */
-        .shell {
+        /* ROCKSTAR DESIGN SYSTEM */
+        .content-shell {
             max-width: 480px;
             margin: 0 auto;
-            padding: 40px 25px;
+            padding: 50px 25px;
             position: relative;
             z-index: 1;
         }
 
         header { margin-bottom: 60px; }
+        .brand-marker { height: 3px; width: 45px; background: var(--spectrum); margin-bottom: 20px; border-radius: 5px; }
+        h1 { font-size: 2.5rem; font-weight: 900; letter-spacing: -2px; color: #fff; text-transform: uppercase; line-height: 1; }
+        .sub-head { color: var(--accent); font-family: monospace; font-size: 0.75rem; letter-spacing: 2px; margin-top: 8px; }
 
-        .brand-marker {
-            height: 3px;
-            width: 40px;
-            background: var(--spectrum);
-            margin-bottom: 15px;
-            border-radius: 2px;
-        }
+        .hero-text { font-size: 1.25rem; font-weight: 300; color: #fff; margin-bottom: 30px; border-left: 2px solid var(--accent); padding-left: 20px; }
 
-        h1 {
-            font-size: 2.4rem;
-            font-weight: 900;
-            letter-spacing: -1.5px;
-            color: #fff;
-            text-transform: uppercase;
-            margin: 0;
-        }
+        .section-tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 4px; color: #444; margin: 50px 0 20px; display: flex; align-items: center; }
+        .section-tag::after { content: ""; flex-grow: 1; height: 1px; background: #1a1a1a; margin-left: 15px; }
 
-        .tagline {
-            font-family: 'Courier New', monospace;
-            color: var(--accent);
-            font-size: 0.75rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-top: 4px;
-        }
-
-        /* Pitch Section */
-        .hero-pitch {
-            font-size: 1.2rem;
-            font-weight: 300;
-            color: #fff;
-            margin-bottom: 20px;
-            border-left: 2px solid var(--accent);
-            padding-left: 20px;
-        }
-
-        /* Capacity Cards */
-        .section-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: var(--text-dim);
-            margin: 40px 0 20px 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .section-label::after {
-            content: "";
-            flex-grow: 1;
-            height: 1px;
-            background: #222;
-            margin-left: 15px;
-        }
-
-        .card {
+        .service-card {
             background: var(--surface);
-            border: 1px solid #1a1a1a;
-            padding: 24px;
-            border-radius: 4px;
-            margin-bottom: 16px;
-            backdrop-filter: blur(8px);
-            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid #151515;
+            padding: 25px;
+            border-radius: 2px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
         }
+        .service-card:hover { border-color: var(--accent); background: #0a0a0a; }
+        .card-id { color: var(--accent); font-family: monospace; font-size: 0.7rem; margin-bottom: 10px; display: block; }
+        .service-card h3 { color: #fff; font-size: 1.1rem; margin-bottom: 5px; }
+        .service-card p { color: var(--text-dim); font-size: 0.85rem; }
 
-        .card:hover {
-            border-color: var(--accent);
-            background: rgba(15, 15, 15, 0.9);
-            transform: translateY(-4px);
-        }
-
-        .card-num {
-            font-family: monospace;
-            color: var(--accent);
-            font-size: 0.8rem;
-            display: block;
-            margin-bottom: 10px;
-            opacity: 0.7;
-        }
-
-        .card h3 {
-            font-size: 1rem;
-            color: #fff;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
-
-        .card p {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            line-height: 1.5;
-        }
-
-        /* The Button */
-        .cta-btn {
+        .action-btn {
             display: block;
             background: #fff;
             color: #000;
-            padding: 20px;
+            padding: 22px;
             text-align: center;
             text-decoration: none;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.85rem;
-            border-radius: 2px;
+            letter-spacing: 4px;
+            font-size: 0.8rem;
             margin-top: 40px;
             transition: 0.3s;
         }
+        .action-btn:hover { background: var(--accent); box-shadow: 0 0 30px rgba(0, 242, 255, 0.3); }
 
-        .cta-btn:hover {
-            background: var(--accent);
-            box-shadow: 0 0 40px var(--accent-glow);
-        }
-
-        /* Footer */
-        footer {
-            margin-top: 100px;
-            padding-top: 30px;
-            border-top: 1px solid #111;
-        }
-
-        .contact-box { margin-bottom: 30px; }
-        
-        .contact-email {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .legal-footer {
-            font-size: 0.65rem;
-            color: #444;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* Utilities */
-        .accent-text { color: var(--accent); }
+        footer { margin-top: 100px; padding-top: 40px; border-top: 1px solid #111; }
+        .footer-mail { color: var(--accent); text-decoration: none; font-weight: bold; font-size: 1.1rem; }
+        .legal { font-size: 0.6rem; color: #333; margin-top: 25px; text-transform: uppercase; letter-spacing: 1px; line-height: 1.8; }
     </style>
 </head>
 <body>
 
-    <div class="merkabah-canvas">
-        <svg id="merkabah" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <div class="merkabah-fixed-layer">
+        <svg id="rockstar-merkabah" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <linearGradient id="cyber-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient id="cyber-glow" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style="stop-color:#00f2ff;stop-opacity:1" />
                     <stop offset="100%" style="stop-color:#7000ff;stop-opacity:0.6" />
                 </linearGradient>
             </defs>
             <g transform="translate(100,100)">
-                <path d="M0,-90 L78,45 L-78,45 Z" fill="none" stroke="url(#cyber-grad)" stroke-width="1.5" />
-                <path d="M0,90 L-78,-45 L78,-45 Z" fill="none" stroke="url(#cyber-grad)" stroke-width="1.5" />
-                
-                <path d="M0,-90 L0,0 M78,45 L0,0 M-78,45 L0,0" stroke="rgba(0, 242, 255, 0.15)" stroke-width="0.5" />
-                <path d="M0,90 L0,0 M-78,-45 L0,0 M78,-45 L0,0" stroke="rgba(0, 242, 255, 0.15)" stroke-width="0.5" />
-                
-                <circle cx="0" cy="0" r="2.5" fill="#00f2ff">
-                    <animate attributeName="r" values="2.5;4;2.5" dur="3s" repeatCount="indefinite" />
-                    <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" />
+                <path d="M0,-90 L78,45 L-78,45 Z" fill="none" stroke="url(#cyber-glow)" stroke-width="1.8" />
+                <path d="M0,90 L-78,-45 L78,-45 Z" fill="none" stroke="url(#cyber-glow)" stroke-width="1.8" />
+                <path d="M0,-90 L0,0 M78,45 L0,0 M-78,45 L0,0" stroke="rgba(0, 242, 255, 0.2)" stroke-width="0.6" />
+                <path d="M0,90 L0,0 M-78,-45 L0,0 M78,-45 L0,0" stroke="rgba(0, 242, 255, 0.2)" stroke-width="0.6" />
+                <circle cx="0" cy="0" r="3" fill="#00f2ff">
+                    <animate attributeName="opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite" />
                 </circle>
             </g>
         </svg>
     </div>
 
-    <div class="shell">
+    <div class="content-shell">
         <header>
             <div class="brand-marker"></div>
             <h1>EPICS</h1>
-            <div class="tagline">SYSTEMS // SIGNALS // SURVEILLANCE</div>
+            <div class="sub-head">SYSTEMS // SIGNALS // SURVEILLANCE</div>
         </header>
 
         <section>
-            <div class="hero-pitch">
-                Hardening digital infrastructure. <br>
-                Amplifying visual presence.
+            <div class="hero-text">
+                Hardening infrastructure. <br>
+                Amplifying presence.
             </div>
-            <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 10px;">
-                SecOps consulting meet high-fidelity media production. We bridge the gap between <strong>Resilient Architecture</strong> and <strong>Impactful Content</strong>.
+            <p style="color: var(--text-dim); font-size: 0.9rem;">
+                Bridging the gap between <strong>SecOps</strong> and <strong>Multimedia</strong>. Expert-led resilient architecture for high-impact results.
             </p>
-            <a href="mailto:info@epicsec.in" class="cta-btn">Initiate Protocol</a>
+            <a href="mailto:info@epicsec.in" class="action-btn">Initiate Protocol</a>
         </section>
 
-        <div class="section-label">Core Capabilities</div>
+        <div class="section-tag">Strategic Vectors</div>
 
         <section>
-            <div class="card">
-                <span class="card-num">0x01</span>
+            <div class="service-card">
+                <span class="card-id">0x01</span>
                 <h3>Digital Fortification</h3>
-                <p>Privacy-first architecture, SecOps strategy, and infrastructure hardening for mission-critical operations.</p>
+                <p>SecOps strategy, infrastructure hardening, and privacy-first architecture.</p>
             </div>
-
-            <div class="card">
-                <span class="card-num">0x02</span>
+            <div class="service-card">
+                <span class="card-id">0x02</span>
                 <h3>Media Architecture</h3>
-                <p>Advanced video post-production, DaVinci Resolve workflows, and high-impact visual identity design.</p>
+                <p>Post-production workflows, Resolve mastering, and visual identity design.</p>
             </div>
-
-            <div class="card">
-                <span class="card-num">0x03</span>
+            <div class="service-card">
+                <span class="card-id">0x03</span>
                 <h3>Sustainable R&D</h3>
-                <p>Cloud optimization and Open Source intelligence—building lean, efficient, and future-proof tech stacks.</p>
+                <p>Cloud footprint optimization via Open Source intelligence and AI integration.</p>
             </div>
         </section>
 
-        <div class="section-label">Philosophy</div>
-        <p style="font-style: italic; color: var(--text-dim); border-left: 2px solid #222; padding-left: 20px; font-size: 0.9rem;">
-            "The superior man makes the difficulty to be overcome his first interest; success only comes later."
-        </p>
-
         <footer>
-            <div class="contact-box">
-                <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;">Secure Channel</p>
-                <a href="mailto:info@epicsec.in" class="contact-email">info@epicsec.in</a>
-            </div>
+            <p style="font-size: 0.7rem; color: #444; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px;">Secure Channel</p>
+            <a href="mailto:info@epicsec.in" class="footer-mail">info@epicsec.in</a>
             
-            <p class="legal-footer">
-                EST. 2026 // BENGALURU, INDIA<br>
+            <p class="legal">
+                EST. 2026 // BENGALURU, IN<br>
                 © EPICS SECTECH & RESEARCH PVT. LTD.<br>
                 ALL SYSTEMS OPERATIONAL.
             </p>
