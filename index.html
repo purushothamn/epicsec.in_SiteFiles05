@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EPICS | SecOps & Media Research</title>
+    <title>EPICS | Strategic SecTech & Narrative Research</title>
     <style>
         :root {
-            --bg: #030303;
+            --bg: #020202;
             --gold: #d4af37;
-            --gold-glow: rgba(212, 175, 55, 0.3);
+            --gold-low: rgba(212, 175, 55, 0.15);
             --aqua: #00ffff;
             --royal: #4169e1;
-            --text: #e0e0e0;
-            --text-dim: #777;
+            --text: #ececec;
+            --text-dim: #888;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -20,50 +20,47 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: -apple-system, system-ui, sans-serif;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
             overflow-x: hidden;
-            line-height: 1.6;
-            min-height: 180vh; /* Necessary for the scroll-in effect */
+            line-height: 1.7;
+            min-height: 250vh; /* Deep scroll for serious content */
         }
 
-        /* --- CELESTIAL STARDUST --- */
-        .stars-layer {
+        /* --- THE CENTRAL VIEWFINDER --- */
+        .viewfinder {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -3;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 280px; height: 380px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            z-index: 10;
             pointer-events: none;
+            border-radius: 2px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
         }
 
-        .star {
-            position: absolute;
-            background: #fff;
-            border-radius: 50%;
-            animation: twinkle var(--t) ease-in-out infinite;
+        /* Viewfinder Corners */
+        .viewfinder::before, .viewfinder::after {
+            content: ""; position: absolute; width: 20px; height: 20px;
+            border: 2px solid var(--gold);
         }
+        .viewfinder::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
+        .viewfinder::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.4); }
-        }
-
-        /* --- THE INVERTED MIST (Fades IN on Scroll) --- */
+        /* --- THE INVERTED MIST --- */
         #mist-layer {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
             z-index: -2;
-            background: radial-gradient(circle at center, 
-                rgba(0, 255, 255, 0.18) 0%, 
-                rgba(65, 105, 225, 0.08) 45%, 
-                transparent 85%);
+            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.15) 0%, rgba(65, 105, 225, 0.05) 50%, transparent 90%);
             pointer-events: none;
-            opacity: 0; /* Start invisible at top */
-            transition: opacity 0.1s linear;
+            opacity: 0;
+            transition: opacity 0.2s ease-out;
         }
 
-        /* --- THE MERKABAH ENGINE (Aqua/Blue Shape) --- */
-        .merkabah-fixed {
+        /* --- MERKABAH ENGINE --- */
+        .merkabah-layer {
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
@@ -74,161 +71,170 @@
         }
 
         #merkabah-svg {
-            width: 85%; max-width: 550px;
+            width: 90%; max-width: 600px;
             animation: glacial-breath 60s ease-in-out infinite;
-            filter: drop-shadow(0 0 25px rgba(0, 255, 255, 0.3));
+            filter: drop-shadow(0 0 30px rgba(0, 255, 255, 0.2));
         }
 
-        .m-line {
-            fill: none;
-            stroke: var(--aqua);
-            stroke-width: 1.8;
-            mix-blend-mode: difference; /* Interacts with mist when it scrolls in */
-        }
+        .m-line { fill: none; stroke: var(--aqua); stroke-width: 1.5; mix-blend-mode: difference; }
 
         @keyframes glacial-breath {
-            0%, 100% { opacity: 0.2; transform: scale(1); filter: blur(0.5px); }
-            50% { opacity: 0.5; transform: scale(1.05); filter: blur(0px); }
+            0%, 100% { opacity: 0.15; transform: scale(1); filter: blur(1px); }
+            50% { opacity: 0.45; transform: scale(1.03); filter: blur(0px); }
         }
 
-        /* --- CONTENT SHELL --- */
+        /* --- CONTENT ARCHITECTURE --- */
         .shell {
-            max-width: 480px;
+            max-width: 500px;
             margin: 0 auto;
-            padding: 80px 25px;
+            padding: 100px 30px;
             position: relative;
-            z-index: 1;
+            z-index: 5;
         }
 
-        header { margin-bottom: 80px; }
-        .brand-marker { height: 2px; width: 50px; background: var(--gold); margin-bottom: 20px; }
-        h1 { font-size: 2.8rem; font-weight: 900; letter-spacing: -2px; color: #fff; text-transform: uppercase; line-height: 1; }
-        .sub { color: var(--gold); font-family: monospace; font-size: 0.75rem; letter-spacing: 4px; margin-top: 10px; opacity: 0.8; }
+        header { margin-bottom: 120px; text-align: center; }
+        .marker { height: 1px; width: 60px; background: var(--gold); margin: 0 auto 30px; }
+        h1 { font-size: 3rem; font-weight: 900; letter-spacing: -2px; color: #fff; text-transform: uppercase; }
+        .sub { color: var(--gold); font-family: monospace; font-size: 0.7rem; letter-spacing: 5px; margin-top: 15px; }
 
-        .hero { font-size: 1.3rem; font-weight: 300; margin-bottom: 40px; border-left: 2px solid var(--gold); padding-left: 20px; }
+        /* SERIOUS CONTENT STYLES */
+        section { margin-bottom: 150px; }
+        h2 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; color: var(--gold); margin-bottom: 30px; opacity: 0.7; }
+        
+        .intel-pitch { font-size: 1.35rem; font-weight: 300; line-height: 1.4; color: #fff; margin-bottom: 40px; }
+        
+        .abstract { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 50px; border-left: 1px solid #222; padding-left: 25px; }
 
-        /* TINTED GLASSY BUTTONS */
-        .btn {
+        .service-block { margin-bottom: 60px; }
+        .service-block h3 { font-size: 1.1rem; color: #fff; margin-bottom: 10px; letter-spacing: 0.5px; }
+        .service-block p { font-size: 0.85rem; color: var(--text-dim); }
+
+        /* BUTTON */
+        .btn-protocol {
             display: block;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             color: #fff;
-            padding: 22px;
+            padding: 25px;
             text-align: center;
             text-decoration: none;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 5px;
-            font-size: 0.8rem;
+            letter-spacing: 6px;
+            font-size: 0.75rem;
             border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 4px;
+            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             backdrop-filter: blur(10px);
-            transition: 0.3s;
         }
 
-        .btn:active {
-            background: rgba(212, 175, 55, 0.15); /* Tinted gold on press */
+        .btn-protocol:active {
+            background: var(--gold-low);
             border-color: var(--gold);
-            box-shadow: 0 0 30px var(--gold-glow);
-            transform: scale(0.97);
+            transform: scale(0.98);
         }
 
-        /* CARDS */
-        .card {
-            background: rgba(10, 10, 10, 0.85);
-            border: 1px solid #1a1a1a;
-            padding: 30px;
-            margin-top: 20px;
-            backdrop-filter: blur(15px);
-            transition: 0.4s;
-        }
-        .card:hover { border-color: var(--gold); }
+        footer { margin-top: 200px; padding-bottom: 80px; border-top: 1px solid #111; padding-top: 60px; text-align: center; }
+        .mail { color: var(--gold); text-decoration: none; font-weight: bold; font-size: 1.2rem; }
+        .legal { font-size: 0.6rem; color: #222; margin-top: 40px; letter-spacing: 3px; text-transform: uppercase; line-height: 2.5; }
 
-        footer { margin-top: 150px; padding-bottom: 50px; border-top: 1px solid #111; padding-top: 40px; }
-        .mail { color: var(--gold); text-decoration: none; font-weight: bold; font-size: 1.1rem; }
-        .legal { font-size: 0.6rem; color: #222; margin-top: 25px; letter-spacing: 2px; text-transform: uppercase; }
+        /* TWINKLE DUST */
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; pointer-events: none; }
+        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle var(--t) infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.4; } }
+
     </style>
 </head>
 <body>
 
+    <div class="viewfinder"></div>
     <div id="mist-layer"></div>
-    <div class="stars-layer" id="star-field"></div>
+    <div class="stars" id="star-field"></div>
 
-    <div class="merkabah-fixed">
+    <div class="merkabah-layer">
         <svg id="merkabah-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(100,100)">
                 <path class="m-line" d="M0,-90 L78,45 L-78,45 Z" />
                 <path class="m-line" d="M0,90 L-78,-45 L78,-45 Z" />
                 <path d="M0,-90 L0,0 M78,45 L0,0 M-78,45 L0,0" stroke="rgba(0, 255, 255, 0.1)" stroke-width="0.5" fill="none" />
                 <path d="M0,90 L0,0 M-78,-45 L0,0 M78,-45 L0,0" stroke="rgba(0, 255, 255, 0.1)" stroke-width="0.5" fill="none" />
-                <circle cx="0" cy="0" r="3" fill="#00ffff">
-                     <animate attributeName="opacity" values="0.3;1;0.3" dur="5s" repeatCount="indefinite" />
-                </circle>
+                <circle cx="0" cy="0" r="3" fill="#00ffff" />
             </g>
         </svg>
     </div>
 
     <div class="shell">
         <header>
-            <div class="brand-marker"></div>
+            <div class="marker"></div>
             <h1>EPICS</h1>
-            <div class="sub">SYSTEMS // SIGNALS // SURVEILLANCE</div>
+            <div class="sub">STRATEGIC SECTECH & RESEARCH</div>
         </header>
 
         <section>
-            <div class="hero">
-                Hardening infrastructure. <br>
-                Amplifying presence.
+            <h2>Executive Summary</h2>
+            <div class="intel-pitch">
+                Hardening critical digital infrastructure through <strong>Adaptive Resilience</strong> and <strong>Signal Integrity</strong>.
             </div>
-            <p style="color: var(--text-dim); margin-bottom: 40px; font-size: 0.9rem;">
-                Bridging the gap between <strong>SecOps</strong> and <strong>Multimedia</strong>. Resilient engineering for the high-impact digital era.
-            </p>
-            <a href="mailto:info@epicsec.in" class="btn">Initiate Protocol</a>
+            <div class="abstract">
+                EPICS SecTech & Research Pvt. Ltd. operates at the intersection of SecOps and Computational Media. We specialize in cross-domain intelligence for high-stakes environments, ensuring both infrastructure security and narrative sovereignty.
+            </div>
+            <a href="mailto:info@epicsec.in" class="btn-protocol">Initiate Protocol</a>
         </section>
 
-        <section style="margin-top: 100px;">
-            <div class="card">
-                <span style="color:var(--gold); font-family:monospace; font-size:0.7rem; opacity:0.6;">0x01</span>
-                <h3 style="margin: 10px 0; font-size: 1.1rem; color:#fff;">Digital Fortification</h3>
-                <p style="color: var(--text-dim); font-size: 0.85rem;">SecOps strategy and infrastructure hardening.</p>
+        <section>
+            <h2>Operational Vectors</h2>
+            
+            <div class="service-block">
+                <h3>0x01 / Infrastructure Fortification</h3>
+                <p>Implementation of Zero-Trust architectures and proactive threat modeling for resilient digital ecosystems.</p>
             </div>
-            <div class="card">
-                <span style="color:var(--gold); font-family:monospace; font-size:0.7rem; opacity:0.6;">0x02</span>
-                <h3 style="margin: 10px 0; font-size: 1.1rem; color:#fff;">Media Architecture</h3>
-                <p style="color: var(--text-dim); font-size: 0.85rem;">Post-production workflows and visual identity.</p>
+
+            <div class="service-block">
+                <h3>0x02 / Narrative & Signal Engineering</h3>
+                <p>High-fidelity visual production and technical brand integrity via proprietary post-production workflows.</p>
             </div>
+
+            <div class="service-block">
+                <h3>0x03 / Computational R&D</h3>
+                <p>Open-source intelligence (OSINT) and sustainable infrastructure scaling through AI-driven optimization.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Strategic Philosophy</h2>
+            <p style="font-style: italic; color: var(--text-dim); font-size: 0.95rem;">
+                "The superior man makes the difficulty to be overcome his first interest; success only comes later."
+            </p>
         </section>
 
         <footer>
+            <p style="font-size: 0.6rem; color: #444; letter-spacing: 4px; margin-bottom: 15px; text-transform: uppercase;">Direct Channel</p>
             <a href="mailto:info@epicsec.in" class="mail">info@epicsec.in</a>
             <p class="legal">
-                EST. 2016 // HOSUR, TN, IND.<br>
-                © EPICS SECTECH & RESEARCH CONSULTING PVT. LTD.<br>
-                OPERATING UNDER DISCREET PROTOCOL.
+                BENGALURU, INDIA // EST. 2026<br>
+                © EPICS SECTECH & RESEARCH PVT. LTD.<br>
+                DISCREET ADVISORY & TECHNICAL EXCELLENCE.
             </p>
         </footer>
     </div>
 
     <script>
-        // 1. STAR GENERATION
+        // 1. STAR DUST
         const field = document.getElementById('star-field');
         for (let i = 0; i < 40; i++) {
             let star = document.createElement('div');
             star.className = 'star';
-            let size = Math.random() * 2;
-            star.style.width = size + 'px';
-            star.style.height = size + 'px';
+            let size = Math.random() * 1.5;
+            star.style.width = size + 'px'; star.style.height = size + 'px';
             star.style.top = Math.random() * 100 + 'vh';
             star.style.left = Math.random() * 100 + 'vw';
-            star.style.setProperty('--t', (Math.random() * 20 + 10) + 's');
+            star.style.setProperty('--t', (Math.random() * 15 + 10) + 's');
             field.appendChild(star);
         }
 
-        // 2. INVERTED SCROLL FADE (Fades IN as you scroll down)
+        // 2. INVERTED SCROLL MIST (Fades in as you go down)
         window.addEventListener('scroll', () => {
             const mist = document.getElementById('mist-layer');
-            const scrollPercent = window.scrollY / (window.innerHeight * 0.8);
-            const opacity = Math.min(1, scrollPercent); /* Fades IN */
-            mist.style.opacity = opacity;
+            const scrollPercent = window.scrollY / (window.innerHeight * 0.9);
+            mist.style.opacity = Math.min(1, scrollPercent);
         });
     </script>
 </body>
