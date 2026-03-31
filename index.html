@@ -9,7 +9,7 @@
             --bg: #030303;
             --surface: rgba(10, 10, 10, 0.9);
             --accent: #d4af37; /* Metallic Gold */
-            --accent-glow: rgba(212, 175, 55, 0.2);
+            --neon-gold: rgba(255, 215, 0, 0.25); /* More "Neon" than the standard gold */
             --text: #e0e0e0;
             --text-dim: #666;
             --spectrum: linear-gradient(90deg, #8e6d13, #d4af37, #fcf6ba, #d4af37, #8e6d13);
@@ -26,7 +26,7 @@
             min-height: 100vh;
         }
 
-        /* THE GLACIAL ENGINE */
+        /* THE GLACIAL ENGINE (Halved Speed) */
         .merkabah-fixed-layer {
             position: fixed;
             top: 50%;
@@ -40,25 +40,27 @@
             align-items: center;
             pointer-events: none;
             
-            /* THE GOLDEN AFTERGLOW (~8% Opacity) */
+            /* NEON HALO AFTERGLOW: Increased opacity and spread */
             background: radial-gradient(circle, 
-                rgba(212, 175, 55, 0.08) 0%, 
-                rgba(139, 101, 8, 0.03) 45%, 
-                transparent 85%);
+                rgba(212, 175, 55, 0.15) 0%, 
+                rgba(139, 101, 8, 0.05) 50%, 
+                transparent 90%);
         }
 
         #rockstar-merkabah {
             width: 85%;
             max-width: 550px;
-            /* SLOWED TO 30 SECONDS: Dangerously subtle */
-            animation: glacial-pulse 30s ease-in-out infinite !important;
+            /* 60 SECOND CYCLE: The ultimate slow-burn */
+            animation: glacial-pulse 60s ease-in-out infinite !important;
             display: block !important;
+            /* FORCED HALO EFFECT on the geometry itself */
+            filter: drop-shadow(0 0 30px var(--neon-gold));
         }
 
         @keyframes glacial-pulse {
-            /* Set to 0.22 floor so it never vanishes on LCD screens */
-            0%, 100% { opacity: 0.22; transform: scale(1); filter: blur(1px); }
-            50% { opacity: 0.45; transform: scale(1.03); filter: blur(0px); }
+            /* Floor increased to 0.25 to ensure visibility on all screens */
+            0%, 100% { opacity: 0.25; transform: scale(1); filter: drop-shadow(0 0 15px var(--neon-gold)) blur(0.5px); }
+            50% { opacity: 0.55; transform: scale(1.04); filter: drop-shadow(0 0 45px var(--neon-gold)) blur(0px); }
         }
 
         /* CONTENT ARCHITECTURE */
@@ -109,7 +111,7 @@
             border: 1px solid #333;
             transition: 0.4s;
         }
-        .action-btn:hover { border-color: var(--accent); background: var(--accent); color: #000; box-shadow: 0 0 40px rgba(212, 175, 55, 0.15); }
+        .action-btn:hover { border-color: var(--accent); background: var(--accent); color: #000; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2); }
 
         footer { margin-top: 120px; padding-top: 40px; border-top: 1px solid #111; }
         .footer-mail { color: var(--accent); text-decoration: none; font-weight: bold; font-size: 1rem; letter-spacing: 1px; }
@@ -127,15 +129,15 @@
                 </linearGradient>
             </defs>
             <g transform="translate(100,100)">
-                <path d="M0,-90 L78,45 L-78,45 Z" fill="none" stroke="url(#gold-glow)" stroke-width="1.2" />
-                <path d="M0,90 L-78,-45 L78,-45 Z" fill="none" stroke="url(#gold-glow)" stroke-width="1.2" />
+                <path d="M0,-90 L78,45 L-78,45 Z" fill="none" stroke="url(#gold-glow)" stroke-width="1.3" />
+                <path d="M0,90 L-78,-45 L78,-45 Z" fill="none" stroke="url(#gold-glow)" stroke-width="1.3" />
                 
-                <path d="M0,-90 L0,0 M78,45 L0,0 M-78,45 L0,0" stroke="rgba(212, 175, 55, 0.15)" stroke-width="0.5" />
-                <path d="M0,90 L0,0 M-78,-45 L0,0 M78,-45 L0,0" stroke="rgba(212, 175, 55, 0.15)" stroke-width="0.5" />
+                <path d="M0,-90 L0,0 M78,45 L0,0 M-78,45 L0,0" stroke="rgba(212, 175, 55, 0.2)" stroke-width="0.5" />
+                <path d="M0,90 L0,0 M-78,-45 L0,0 M78,-45 L0,0" stroke="rgba(212, 175, 55, 0.2)" stroke-width="0.5" />
                 
-                <circle cx="0" cy="0" r="2.5" fill="#fcf6ba">
-                    <animate attributeName="opacity" values="0.3;1;0.3" dur="25s" repeatCount="indefinite" />
-                    <animate attributeName="r" values="2.5;3.2;2.5" dur="25s" repeatCount="indefinite" />
+                <circle cx="0" cy="0" r="2.8" fill="#fcf6ba">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="50s" repeatCount="indefinite" />
+                    <animate attributeName="r" values="2.8;3.8;2.8" dur="50s" repeatCount="indefinite" />
                 </circle>
             </g>
         </svg>
