@@ -7,12 +7,11 @@
     <style>
         :root {
             --bg: #030303;
-            --surface: rgba(10, 10, 10, 0.8);
-            --accent: #d4af37;
             --aqua: #00ffff;
             --royal: #4169e1;
             --text: #e0e0e0;
             --text-dim: #666;
+            --accent: #d4af37; /* Kept for branding depth */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -20,28 +19,28 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: -apple-system, system-ui, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             overflow-x: hidden;
             line-height: 1.6;
-            min-height: 200vh; /* Added height to allow for scrolling effect */
+            min-height: 180vh; /* Allows for the scroll-fade effect */
         }
 
-        /* --- THE MISTY BACKGROUND (Fades on Scroll) --- */
+        /* --- THE MIST (Fades on Scroll) --- */
         #mist-layer {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
             z-index: -2;
             background: radial-gradient(circle at center, 
-                rgba(0, 255, 255, 0.2) 0%, 
-                rgba(65, 105, 225, 0.1) 40%, 
-                transparent 75%);
+                rgba(0, 255, 255, 0.15) 0%, 
+                rgba(65, 105, 225, 0.08) 45%, 
+                transparent 85%);
             pointer-events: none;
-            transition: opacity 0.1s linear;
+            transition: opacity 0.2s ease-out;
         }
 
-        /* --- THE STAR DUST --- */
-        .stars-container {
+        /* --- CELESTIAL STARDUST --- */
+        .stars {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
@@ -53,16 +52,16 @@
             position: absolute;
             background: #fff;
             border-radius: 50%;
-            animation: twinkle var(--d) ease-in-out infinite;
+            animation: twinkle var(--t) ease-in-out infinite;
         }
 
         @keyframes twinkle {
             0%, 100% { opacity: 0.1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.4); }
+            50% { opacity: 0.4; transform: scale(1.3); }
         }
 
         /* --- THE MERKABAH ENGINE --- */
-        .merkabah-container {
+        .merkabah-fixed {
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
@@ -74,25 +73,25 @@
 
         #merkabah-svg {
             width: 80%; max-width: 500px;
-            animation: breathe 60s ease-in-out infinite;
-            /* Neon blue drop shadow for the 'halo' effect on lines */
-            filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.4));
+            animation: glacial-breath 60s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
         }
 
-        .m-lines {
+        .m-line {
+            fill: none;
             stroke: var(--aqua);
             stroke-width: 1.8;
-            fill: none;
-            mix-blend-mode: difference; /* Interacts with the mist behind it */
+            /* DIFFERENCE EFFECT: Inverts colors against the blue mist */
+            mix-blend-mode: difference; 
         }
 
-        @keyframes breathe {
-            0%, 100% { opacity: 0.25; transform: scale(1); filter: blur(1px) drop-shadow(0 0 10px rgba(0,255,255,0.2)); }
-            50% { opacity: 0.6; transform: scale(1.05); filter: blur(0px) drop-shadow(0 0 30px rgba(0,255,255,0.5)); }
+        @keyframes glacial-breath {
+            0%, 100% { opacity: 0.2; transform: scale(1); filter: blur(0.5px); }
+            50% { opacity: 0.55; transform: scale(1.04); filter: blur(0px); }
         }
 
         /* --- CONTENT SHELL --- */
-        .content-shell {
+        .shell {
             max-width: 480px;
             margin: 0 auto;
             padding: 80px 25px;
@@ -102,10 +101,11 @@
 
         header { margin-bottom: 80px; }
         h1 { font-size: 2.8rem; font-weight: 900; letter-spacing: -2px; color: #fff; text-transform: uppercase; line-height: 1; }
-        .sub { color: var(--aqua); font-family: monospace; font-size: 0.75rem; letter-spacing: 4px; margin-top: 10px; }
+        .sub { color: var(--aqua); font-family: monospace; font-size: 0.75rem; letter-spacing: 4px; margin-top: 10px; opacity: 0.8; }
 
         .hero { font-size: 1.3rem; font-weight: 300; margin-bottom: 40px; border-left: 2px solid var(--aqua); padding-left: 20px; }
 
+        /* GLASSY BUTTONS */
         .btn {
             display: block;
             background: rgba(255, 255, 255, 0.03);
@@ -117,20 +117,20 @@
             text-transform: uppercase;
             letter-spacing: 5px;
             font-size: 0.8rem;
-            border: 1px solid rgba(0, 255, 255, 0.2);
+            border: 1px solid rgba(0, 255, 255, 0.15);
             border-radius: 4px;
             backdrop-filter: blur(10px);
-            transition: 0.3s ease;
+            transition: 0.3s;
         }
 
         .btn:active {
-            background: rgba(0, 255, 255, 0.15);
-            box-shadow: 0 0 40px rgba(0, 255, 255, 0.2);
+            background: rgba(0, 255, 255, 0.12);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
             transform: scale(0.97);
         }
 
         .card {
-            background: var(--surface);
+            background: rgba(10, 10, 10, 0.85);
             border: 1px solid #111;
             padding: 30px;
             margin-top: 20px;
@@ -139,27 +139,27 @@
 
         footer { margin-top: 150px; padding-bottom: 50px; border-top: 1px solid #111; padding-top: 40px; }
         .mail { color: var(--aqua); text-decoration: none; font-weight: bold; font-size: 1.1rem; }
+        .legal { font-size: 0.6rem; color: #222; margin-top: 25px; letter-spacing: 2px; line-height: 2; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
     <div id="mist-layer"></div>
+    <div class="stars" id="star-field"></div>
 
-    <div class="stars-container" id="star-field"></div>
-
-    <div class="merkabah-container">
+    <div class="merkabah-fixed">
         <svg id="merkabah-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(100,100)">
-                <path class="m-lines" d="M0,-90 L78,45 L-78,45 Z" />
-                <path class="m-lines" d="M0,90 L-78,-45 L78,-45 Z" />
-                <path d="M0,-90 L0,0 M78,45 L0,0 M-78,45 L0,0" stroke="rgba(0, 255, 255, 0.1)" stroke-width="0.5" fill="none" />
-                <path d="M0,90 L0,0 M-78,-45 L0,0 M78,-45 L0,0" stroke="rgba(0, 255, 255, 0.1)" stroke-width="0.5" fill="none" />
+                <path class="m-line" d="M0,-90 L78,45 L-78,45 Z" />
+                <path class="m-line" d="M0,90 L-78,-45 L78,-45 Z" />
+                <path d="M0,-90 L0,0 M78,45 L0,0 M-78,45 L0,0" stroke="rgba(0, 255, 255, 0.15)" stroke-width="0.5" fill="none" />
+                <path d="M0,90 L0,0 M-78,-45 L0,0 M78,-45 L0,0" stroke="rgba(0, 255, 255, 0.15)" stroke-width="0.5" fill="none" />
                 <circle cx="0" cy="0" r="3" fill="#00ffff" />
             </g>
         </svg>
     </div>
 
-    <div class="content-shell">
+    <div class="shell">
         <header>
             <h1>EPICS</h1>
             <div class="sub">SYSTEMS // SIGNALS // SURVEILLANCE</div>
@@ -170,30 +170,31 @@
                 Hardening infrastructure. <br>
                 Amplifying presence.
             </div>
-            <p style="color: var(--text-dim); margin-bottom: 40px;">
-                SecOps consulting meet high-fidelity media production. We design for resilient, high-impact digital presence.
+            <p style="color: var(--text-dim); margin-bottom: 40px; font-size: 0.9rem;">
+                Bridging the gap between <strong>SecOps</strong> and <strong>Multimedia</strong>. Resilient engineering for the high-impact digital era.
             </p>
             <a href="mailto:info@epicsec.in" class="btn">Initiate Protocol</a>
         </section>
 
         <section style="margin-top: 80px;">
             <div class="card">
-                <span style="color:var(--aqua); font-family:monospace; font-size:0.7rem;">0x01</span>
-                <h3 style="margin: 10px 0;">Digital Fortification</h3>
-                <p style="color: var(--text-dim); font-size: 0.9rem;">Privacy-first architecture and infrastructure hardening.</p>
+                <span style="color:var(--aqua); font-family:monospace; font-size:0.7rem; opacity:0.6;">0x01</span>
+                <h3 style="margin: 10px 0; font-size: 1.1rem; color:#fff;">Digital Fortification</h3>
+                <p style="color: var(--text-dim); font-size: 0.85rem;">SecOps strategy and infrastructure hardening.</p>
             </div>
             <div class="card">
-                <span style="color:var(--aqua); font-family:monospace; font-size:0.7rem;">0x02</span>
-                <h3 style="margin: 10px 0;">Media Architecture</h3>
-                <p style="color: var(--text-dim); font-size: 0.9rem;">Advanced post-production and visual identity.</p>
+                <span style="color:var(--aqua); font-family:monospace; font-size:0.7rem; opacity:0.6;">0x02</span>
+                <h3 style="margin: 10px 0; font-size: 1.1rem; color:#fff;">Media Architecture</h3>
+                <p style="color: var(--text-dim); font-size: 0.85rem;">Post-production workflows and visual identity.</p>
             </div>
         </section>
 
         <footer>
             <a href="mailto:info@epicsec.in" class="mail">info@epicsec.in</a>
-            <p style="font-size: 0.6rem; color: #222; margin-top: 20px; letter-spacing: 2px;">
+            <p class="legal">
                 EST. 2026 // BENGALURU, IN<br>
-                © EPICS SECTECH & RESEARCH PVT. LTD.
+                © EPICS SECTECH & RESEARCH PVT. LTD.<br>
+                OPERATING UNDER DISCREET PROTOCOL.
             </p>
         </footer>
     </div>
@@ -201,7 +202,7 @@
     <script>
         // 1. GENERATE STAR DUST
         const field = document.getElementById('star-field');
-        for (let i = 0; i < 45; i++) {
+        for (let i = 0; i < 40; i++) {
             let star = document.createElement('div');
             star.className = 'star';
             let size = Math.random() * 2;
@@ -209,14 +210,14 @@
             star.style.height = size + 'px';
             star.style.top = Math.random() * 100 + 'vh';
             star.style.left = Math.random() * 100 + 'vw';
-            star.style.setProperty('--d', (Math.random() * 20 + 10) + 's');
+            star.style.setProperty('--t', (Math.random() * 20 + 10) + 's');
             field.appendChild(star);
         }
 
         // 2. SCROLL FADE LOGIC (Mist disappears as you scroll)
         window.addEventListener('scroll', () => {
             const mist = document.getElementById('mist-layer');
-            const scrollPercent = window.scrollY / (window.innerHeight * 0.8);
+            const scrollPercent = window.scrollY / (window.innerHeight * 0.7);
             const opacity = Math.max(0, 1 - scrollPercent);
             mist.style.opacity = opacity;
         });
