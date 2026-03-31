@@ -1,219 +1,309 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Epics SecTech & Research</title>
+    <title>EPICS | SecOps & Media Research</title>
     <style>
         :root {
-            /* Cyber-Noir Palette */
-            --bg-color: #050505;       
-            --card-bg: #111111;        
-            --text-main: #e0e0e0;      
-            --text-muted: #888888;     
-            --accent: #00f2ff;         /* Cyan Spectrum */
-            --accent-gradient: linear-gradient(90deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff);
+            --bg: #030303;
+            --surface: rgba(10, 10, 10, 0.8);
+            --accent: #00f2ff;
+            --accent-glow: rgba(0, 242, 255, 0.4);
+            --secondary: #7000ff;
+            --text: #e0e0e0;
+            --text-dim: #888;
+            --spectrum: linear-gradient(90deg, #ff0055, #00f2ff, #7000ff);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            overflow-x: hidden;
             line-height: 1.6;
             min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
         }
 
-/* Merkabah Background */
-.bg-cube {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /* Make the container slightly larger than the 200px viewBox */
-    width: 90vw; 
-    height: 90vw;
-    max-width: 600px;
-    max-height: 600px;
-    background-image: url('cube.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    /* Increase this to 1.0 temporarily if you still don't see it! */
-    opacity: 0.3; 
-    z-index: 0;
-    pointer-events: none;
-}
+        /* --- THE MERKABAH ENGINE --- */
+        .merkabah-canvas {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+            
+            /* THE HALO: Mild multi-color spectrum behind the angles */
+            background: radial-gradient(circle, 
+                rgba(0, 242, 255, 0.07) 0%, 
+                rgba(112, 0, 255, 0.04) 35%, 
+                rgba(255, 0, 85, 0.02) 70%, 
+                transparent 100%);
+        }
 
-        
-        /* Mobile Container Restraint */
-        .container {
-            max-width: 480px; 
+        svg#merkabah {
+            width: 85%;
+            max-width: 550px;
+            /* BREATHING ANIMATION: 10s cycle for a 'capacitated' feel */
+            animation: breathe 10s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px var(--accent-glow));
+        }
+
+        @keyframes breathe {
+            0%, 100% { 
+                opacity: 0.2; 
+                transform: scale(1);
+                filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.1));
+            }
+            50% { 
+                opacity: 0.45; 
+                transform: scale(1.03);
+                filter: drop-shadow(0 0 35px rgba(0, 242, 255, 0.5));
+            }
+        }
+
+        /* --- LAYOUT & CONTENT --- */
+        .shell {
+            max-width: 480px;
             margin: 0 auto;
+            padding: 40px 25px;
             position: relative;
             z-index: 1;
         }
 
-        /* Header / Branding */
-        header {
-            margin-bottom: 40px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 20px;
-        }
+        header { margin-bottom: 60px; }
 
-        h1 {
-            font-size: 1.6rem;
-            margin: 0 0 5px 0;
-            letter-spacing: -0.5px;
-        }
-
-        .role {
-            color: var(--accent);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
-            line-height: 1.4;
-        }
-
-        /* Prism Accent Line */
-        .spectrum-line {
-            height: 2px;
-            width: 100%;
-            background: var(--accent-gradient);
-            margin: 10px 0;
+        .brand-marker {
+            height: 3px;
+            width: 40px;
+            background: var(--spectrum);
+            margin-bottom: 15px;
             border-radius: 2px;
         }
 
-        /* Sections */
-        section {
-            margin-bottom: 40px;
-        }
-
-        h2 {
-            font-size: 1.1rem;
-            border-left: 3px solid var(--accent);
-            padding-left: 10px;
-            margin-bottom: 15px;
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 900;
+            letter-spacing: -1.5px;
             color: #fff;
+            text-transform: uppercase;
+            margin: 0;
         }
 
-        /* Service Cards */
-        .service-card {
-            background: rgba(17, 17, 17, 0.9); /* Slight transparency for the cube to peek through */
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #222;
-            margin-bottom: 15px;
-            backdrop-filter: blur(2px);
-        }
-
-        .service-title {
+        .tagline {
+            font-family: 'Courier New', monospace;
+            color: var(--accent);
+            font-size: 0.75rem;
             font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
+            letter-spacing: 2px;
+            margin-top: 4px;
+        }
+
+        /* Pitch Section */
+        .hero-pitch {
+            font-size: 1.2rem;
+            font-weight: 300;
             color: #fff;
+            margin-bottom: 20px;
+            border-left: 2px solid var(--accent);
+            padding-left: 20px;
         }
 
-        /* Typography Utilities */
-        p { margin: 0 0 10px 0; font-size: 0.95rem; }
-        .muted { color: var(--text-muted); font-size: 0.85rem; }
-        .quote { 
-            font-style: italic; 
-            border-left: 2px solid #333; 
-            padding-left: 15px; 
-            color: var(--text-muted);
+        /* Capacity Cards */
+        .section-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--text-dim);
+            margin: 40px 0 20px 0;
+            display: flex;
+            align-items: center;
         }
 
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            background: var(--text-main);
-            color: var(--bg-color);
-            padding: 12px 20px;
-            text-decoration: none;
-            font-weight: bold;
+        .section-label::after {
+            content: "";
+            flex-grow: 1;
+            height: 1px;
+            background: #222;
+            margin-left: 15px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid #1a1a1a;
+            padding: 24px;
             border-radius: 4px;
-            width: 100%;
-            text-align: center;
-            box-sizing: border-box;
-            border: 1px solid var(--text-main);
-        }
-        
-        .btn:hover {
-            background: var(--bg-color);
-            color: var(--text-main);
+            margin-bottom: 16px;
+            backdrop-filter: blur(8px);
+            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        a { color: var(--text-main); text-decoration: underline; }
+        .card:hover {
+            border-color: var(--accent);
+            background: rgba(15, 15, 15, 0.9);
+            transform: translateY(-4px);
+        }
+
+        .card-num {
+            font-family: monospace;
+            color: var(--accent);
+            font-size: 0.8rem;
+            display: block;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .card p {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        /* The Button */
+        .cta-btn {
+            display: block;
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            border-radius: 2px;
+            margin-top: 40px;
+            transition: 0.3s;
+        }
+
+        .cta-btn:hover {
+            background: var(--accent);
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 100px;
+            padding-top: 30px;
+            border-top: 1px solid #111;
+        }
+
+        .contact-box { margin-bottom: 30px; }
+        
+        .contact-email {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .legal-footer {
+            font-size: 0.65rem;
+            color: #444;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Utilities */
+        .accent-text { color: var(--accent); }
     </style>
 </head>
 <body>
 
-    <div class="bg-cube"></div>
+    <div class="merkabah-canvas">
+        <svg id="merkabah" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="cyber-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#00f2ff;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#7000ff;stop-opacity:0.6" />
+                </linearGradient>
+            </defs>
+            <g transform="translate(100,100)">
+                <path d="M0,-90 L78,45 L-78,45 Z" fill="none" stroke="url(#cyber-grad)" stroke-width="1.5" />
+                <path d="M0,90 L-78,-45 L78,-45 Z" fill="none" stroke="url(#cyber-grad)" stroke-width="1.5" />
+                
+                <path d="M0,-90 L0,0 M78,45 L0,0 M-78,45 L0,0" stroke="rgba(0, 242, 255, 0.15)" stroke-width="0.5" />
+                <path d="M0,90 L0,0 M-78,-45 L0,0 M78,-45 L0,0" stroke="rgba(0, 242, 255, 0.15)" stroke-width="0.5" />
+                
+                <circle cx="0" cy="0" r="2.5" fill="#00f2ff">
+                    <animate attributeName="r" values="2.5;4;2.5" dur="3s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" />
+                </circle>
+            </g>
+        </svg>
+    </div>
 
-    <div class="container">
+    <div class="shell">
         <header>
-            <div class="spectrum-line"></div> 
-            <h1>Epics SecTech & Research</h1>
-            <div class="role">
-                Consultant | Open Source Contributor | Linguist
-            </div>
+            <div class="brand-marker"></div>
+            <h1>EPICS</h1>
+            <div class="tagline">SYSTEMS // SIGNALS // SURVEILLANCE</div>
         </header>
 
         <section>
-            <p style="font-size: 1.1rem;">
-                Bridging the gap between <strong>Resilient Infrastructure</strong> and <strong>Impactful Presence</strong>.
+            <div class="hero-pitch">
+                Hardening digital infrastructure. <br>
+                Amplifying visual presence.
+            </div>
+            <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 10px;">
+                SecOps consulting meet high-fidelity media production. We bridge the gap between <strong>Resilient Architecture</strong> and <strong>Impactful Content</strong>.
             </p>
-            <p class="muted">
-                Specializing in Data Privacy, Security Hardening, and Sustainable Tech Strategies.
-            </p>
-            <br>
-            <a href="mailto:info@epicsec.in" class="btn">Request Consultation</a>
+            <a href="mailto:info@epicsec.in" class="cta-btn">Initiate Protocol</a>
         </section>
+
+        <div class="section-label">Core Capabilities</div>
 
         <section>
-            <h2>Research & Consulting Areas</h2>
-            
-            <div class="service-card">
-                <span class="service-title">🔒 Security & Data Privacy</span>
-                <p class="muted">Hardening strategies for Information, Data, and Infrastructure. Focusing on privacy-first architecture and vulnerability assessments (ISC2 CC).</p>
+            <div class="card">
+                <span class="card-num">0x01</span>
+                <h3>Digital Fortification</h3>
+                <p>Privacy-first architecture, SecOps strategy, and infrastructure hardening for mission-critical operations.</p>
             </div>
 
-            <div class="service-card">
-                <span class="service-title">🎨 Multimedia & Social Presence</span>
-                <p class="muted">Creative technology consulting to define your digital voice and social impact.</p>
+            <div class="card">
+                <span class="card-num">0x02</span>
+                <h3>Media Architecture</h3>
+                <p>Advanced video post-production, DaVinci Resolve workflows, and high-impact visual identity design.</p>
             </div>
-            
-            <div class="service-card">
-                <span class="service-title">🌱 Sustainable Tech & Open Source</span>
-                <p class="muted">Optimizing cloud resources and integrating open-source solutions for long-term efficiency.</p>
+
+            <div class="card">
+                <span class="card-num">0x03</span>
+                <h3>Sustainable R&D</h3>
+                <p>Cloud optimization and Open Source intelligence—building lean, efficient, and future-proof tech stacks.</p>
             </div>
         </section>
 
-        <section>
-            <h2>Philosophy</h2>
-            <div class="quote">
-                "The superior man makes the difficulty to be overcome his first interest; success only comes later."
-                <br>— Confucius
-            </div>
-        </section>
+        <div class="section-label">Philosophy</div>
+        <p style="font-style: italic; color: var(--text-dim); border-left: 2px solid #222; padding-left: 20px; font-size: 0.9rem;">
+            "The superior man makes the difficulty to be overcome his first interest; success only comes later."
+        </p>
 
-        <footer style="border-top: 1px solid #333; padding-top: 20px;">
-            <p><strong>Contact</strong><br>
-            <a href="mailto:info@epicsec.in" style="text-decoration: none; color: var(--accent);">info@epicsec.in</a></p>
+        <footer>
+            <div class="contact-box">
+                <p style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;">Secure Channel</p>
+                <a href="mailto:info@epicsec.in" class="contact-email">info@epicsec.in</a>
+            </div>
             
-            <div style="margin-top: 20px; padding: 10px; background: rgba(10, 10, 10, 0.9); border-radius: 4px;">
-                <p class="muted" style="margin-bottom: 5px;"><strong>Consulting Hours (IST)</strong></p>
-                <p style="font-family: monospace;">Mon - Fri: 16:00 – 22:00</p>
-                <p class="muted" style="font-size: 0.8rem;">Meetings by Appointment Only.</p>
-            </div>
-
-            <br>
-            <p class="muted" style="font-size: 0.75rem;">© 2026 Epics SecTech & Research.<br>Bengaluru, India.</p>
+            <p class="legal-footer">
+                EST. 2026 // BENGALURU, INDIA<br>
+                © EPICS SECTECH & RESEARCH PVT. LTD.<br>
+                ALL SYSTEMS OPERATIONAL.
+            </p>
         </footer>
     </div>
 
