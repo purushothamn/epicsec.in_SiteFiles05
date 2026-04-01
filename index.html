@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EPICS | Strategic SecTech & Research</title>
+    <title>EPICS | Strategic SecTech & Narrative Research</title>
     <style>
         :root {
             --bg: #020202;
             --gold: #d4af37;
             --gold-low: rgba(212, 175, 55, 0.15);
             --aqua: #00ffff;
+            --royal: #4169e1;
             --text: #ececec;
             --text-dim: #888;
         }
@@ -22,7 +23,7 @@
             font-family: 'Inter', -apple-system, system-ui, sans-serif;
             overflow-x: hidden;
             line-height: 1.7;
-            min-height: 220vh;
+            min-height: 280vh; /* Deep scroll for narrative depth */
         }
 
         /* --- THE CENTRAL VIEWFINDER --- */
@@ -43,7 +44,7 @@
         .viewfinder::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
         .viewfinder::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
 
-        /* --- THE INVERTED MIST --- */
+        /* --- THE INVERTED MIST (Scroll-In) --- */
         #mist-layer {
             position: fixed;
             top: 0; left: 0;
@@ -52,10 +53,10 @@
             background: radial-gradient(circle at center, rgba(0, 255, 255, 0.15) 0%, rgba(65, 105, 225, 0.05) 50%, transparent 90%);
             pointer-events: none;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
 
-        /* --- MERKABAH ENGINE --- */
+        /* --- MERKABAH ENGINE (60s Breath) --- */
         .merkabah-layer {
             position: fixed;
             top: 50%; left: 50%;
@@ -79,17 +80,28 @@
         .shell {
             max-width: 500px;
             margin: 0 auto;
-            padding: 100px 30px;
+            padding: 120px 30px;
             position: relative;
             z-index: 5;
         }
 
-        header { margin-bottom: 120px; text-align: center; }
+        header { margin-bottom: 150px; text-align: center; }
         .marker { height: 1px; width: 60px; background: var(--gold); margin: 0 auto 30px; }
         h1 { font-size: 3rem; font-weight: 900; letter-spacing: -2px; color: #fff; text-transform: uppercase; }
         .sub { color: var(--gold); font-family: monospace; font-size: 0.7rem; letter-spacing: 5px; margin-top: 15px; }
 
-        /* --- THE CAPACITED BUTTON --- */
+        /* --- CONTENT BLOCKS --- */
+        section { margin-bottom: 180px; }
+        h2 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; color: var(--gold); margin-bottom: 30px; opacity: 0.6; }
+        
+        .intel-pitch { font-size: 1.35rem; font-weight: 300; line-height: 1.4; color: #fff; margin-bottom: 40px; }
+        .abstract { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 60px; border-left: 1px solid #222; padding-left: 25px; }
+
+        .vector-block { margin-bottom: 60px; }
+        .vector-block h3 { font-size: 1.1rem; color: #fff; margin-bottom: 12px; letter-spacing: 0.5px; font-weight: 600; }
+        .vector-block p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; }
+
+        /* --- CAPACITED BUTTON --- */
         .btn-protocol {
             display: block;
             background: rgba(255, 255, 255, 0.02);
@@ -103,32 +115,25 @@
             font-size: 0.75rem;
             border: 1px solid rgba(212, 175, 55, 0.2);
             backdrop-filter: blur(10px);
-            
-            /* The 'Gentle/Capacited' transition base */
             opacity: 1;
-            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-                        transform 0.2s ease, 
-                        background 0.4s ease;
+            /* Capacited release: Slow return to full opacity */
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 0.3s ease, 
+                        background 0.5s ease;
         }
 
         .btn-protocol:active {
-            /* The opacity drop (Clickdown state) */
-            opacity: 0.4; 
+            /* Capacited draw: Fast drop on clickdown */
+            opacity: 0.35; 
             background: var(--gold-low);
             border-color: var(--gold);
-            transform: scale(0.98);
-            /* Shortening the active transition makes it feel like it's 'loading' under pressure */
+            transform: scale(0.97);
             transition: opacity 0.1s ease; 
         }
 
-        section { margin-bottom: 150px; }
-        h2 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; color: var(--gold); margin-bottom: 30px; opacity: 0.7; }
-        .intel-pitch { font-size: 1.35rem; font-weight: 300; line-height: 1.4; color: #fff; margin-bottom: 40px; }
-        .abstract { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 50px; border-left: 1px solid #222; padding-left: 25px; }
-
-        footer { margin-top: 200px; padding-bottom: 80px; border-top: 1px solid #111; padding-top: 60px; text-align: center; }
-        .mail { color: var(--gold); text-decoration: none; font-weight: bold; font-size: 1.2rem; }
-        .legal { font-size: 0.6rem; color: #222; margin-top: 40px; letter-spacing: 3px; text-transform: uppercase; line-height: 2.5; }
+        footer { margin-top: 250px; padding-bottom: 100px; border-top: 1px solid #111; padding-top: 80px; text-align: center; }
+        .mail { color: var(--gold); text-decoration: none; font-weight: bold; font-size: 1.2rem; letter-spacing: 1px; }
+        .legal { font-size: 0.6rem; color: #252525; margin-top: 50px; letter-spacing: 3px; text-transform: uppercase; line-height: 2.8; }
 
         /* TWINKLE DUST */
         .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; pointer-events: none; }
@@ -167,16 +172,44 @@
                 Hardening critical digital infrastructure through <strong>Adaptive Resilience</strong> and <strong>Signal Integrity</strong>.
             </div>
             <div class="abstract">
-                EPICS SecTech & Research Pvt. Ltd. operates at the intersection of SecOps and Computational Media.
+                EPICS SecTech & Research Pvt. Ltd. operates at the intersection of SecOps and Computational Media. We specialize in cross-domain intelligence for high-stakes environments, ensuring both infrastructure security and narrative sovereignty.
             </div>
             <a href="mailto:info@epicsec.in" class="btn-protocol">Initiate Protocol</a>
         </section>
 
+        <section>
+            <h2>Operational Vectors</h2>
+            
+            <div class="vector-block">
+                <h3>0x01 / Infrastructure Fortification</h3>
+                <p>Strategic implementation of Zero-Trust architectures and proactive threat modeling. We design resilient digital ecosystems that maintain operational continuity under duress.</p>
+            </div>
+
+            <div class="vector-block">
+                <h3>0x02 / Narrative & Signal Engineering</h3>
+                <p>High-fidelity visual production and technical brand integrity. Utilizing proprietary post-production workflows to define and protect digital presence.</p>
+            </div>
+
+            <div class="vector-block">
+                <h3>0x03 / Computational R&D</h3>
+                <p>Open-source intelligence (OSINT) gathering and sustainable infrastructure scaling. Optimizing cloud footprints through targeted AI system integration.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Strategic Philosophy</h2>
+            <p style="font-style: italic; color: var(--text-dim); font-size: 0.95rem; border-left: 1px solid var(--gold); padding-left: 20px;">
+                "The superior man makes the difficulty to be overcome his first interest; success only comes later."
+            </p>
+        </section>
+
         <footer>
+            <p style="font-size: 0.6rem; color: #444; letter-spacing: 4px; margin-bottom: 20px; text-transform: uppercase;">Direct Intelligence Channel</p>
             <a href="mailto:info@epicsec.in" class="mail">info@epicsec.in</a>
             <p class="legal">
                 BENGALURU, INDIA // EST. 2026<br>
-                © EPICS SECTECH & RESEARCH PVT. LTD.
+                © EPICS SECTECH & RESEARCH PVT. LTD.<br>
+                DISCREET ADVISORY & TECHNICAL EXCELLENCE.
             </p>
         </footer>
     </div>
