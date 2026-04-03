@@ -26,37 +26,63 @@
             min-height: 250vh;
         }
 
-        /* --- FLUID VIEWFINDER (Responsive Scaling) --- */
+        /* --- THE ADAPTIVE VIEWFINDER (Responsive Frame) --- */
         .viewfinder {
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            /* Scales between 260px and 450px based on screen size */
-            width: clamp(260px, 60vw, 450px); 
-            height: clamp(350px, 70vh, 600px);
-            border: 1px solid rgba(212, 175, 55, 0.05);
             z-index: 10;
             pointer-events: none;
-            transition: all 0.5s ease;
+            border: 1px solid rgba(212, 175, 55, 0.05);
+            /* SMOOTH TRANSITION FOR ALL SCREEN CHANGES */
+            transition: width 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                        height 0.8s cubic-bezier(0.165, 0.84, 0.44, 1),
+                        border-color 0.5s ease;
         }
+
+        /* Responsive Breakpoints for the Frame */
+        /* MOBILE (Portrait) */
+        @media (max-width: 480px) {
+            .viewfinder { width: 85vw; height: 70vh; }
+        }
+        /* TABLET / LANDSCAPE MOBILE */
+        @media (min-width: 481px) and (max-width: 1024px) {
+            .viewfinder { width: 60vw; height: 60vh; }
+        }
+        /* PC / DESKTOP */
+        @media (min-width: 1025px) {
+            .viewfinder { width: 450px; height: 600px; }
+        }
+
+        /* Viewfinder Corner Brackets */
         .viewfinder::before, .viewfinder::after {
-            content: ""; position: absolute; width: 20px; height: 20px;
+            content: ""; position: absolute; width: 25px; height: 25px;
             border: 2px solid var(--gold);
+            transition: all 0.5s ease;
         }
         .viewfinder::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
         .viewfinder::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
 
-        /* --- MIST & MERKABAH (Unified Background) --- */
+        /* --- BACKGROUND LAYERS --- */
         #mist-layer {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
             z-index: -2;
             background: radial-gradient(circle at center, rgba(0, 255, 255, 0.12) 0%, rgba(65, 105, 225, 0.04) 50%, transparent 90%);
-            pointer-events: none;
-            opacity: 0;
+            pointer-events: none; opacity: 0;
         }
 
+        #star-field {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 120%;
+            z-index: -3; pointer-events: none;
+            will-change: transform;
+        }
+        .star { position: absolute; background: #fff; border-radius: 50%; opacity: 0.4; }
+
+        /* --- MERKABAH ENGINE --- */
         .merkabah-layer {
             position: fixed;
             top: 50%; left: 50%;
@@ -66,8 +92,7 @@
             display: flex; justify-content: center; align-items: center;
         }
         #merkabah-svg {
-            width: 90%; 
-            max-width: 700px;
+            width: 90%; max-width: 700px;
             animation: glacial-breath 60s ease-in-out infinite;
         }
         .m-line { fill: none; stroke: var(--aqua); stroke-width: 1.5; mix-blend-mode: difference; }
@@ -76,36 +101,35 @@
             50% { opacity: 0.45; transform: scale(1.05); filter: blur(0px); }
         }
 
-        /* --- RESPONSIVE CONTENT SHELL --- */
+        /* --- CONTENT SHELL --- */
         .shell {
-            width: 90%;
-            max-width: 800px; /* Wider for Desktop */
+            width: 85%;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 100px 0;
+            padding: 120px 0;
             position: relative;
             z-index: 5;
         }
 
-        header { margin-bottom: clamp(80px, 15vh, 150px); text-align: center; }
+        header { margin-bottom: 120px; text-align: center; }
         .marker { height: 1px; width: 60px; background: var(--gold); margin: 0 auto 30px; }
-        h1 { font-size: clamp(2rem, 8vw, 3.5rem); font-weight: 900; letter-spacing: -2px; color: #fff; text-transform: uppercase; }
-        .sub { color: var(--gold); font-family: monospace; font-size: clamp(0.6rem, 2vw, 0.75rem); letter-spacing: 4px; margin-top: 15px; }
+        h1 { font-size: clamp(2.2rem, 8vw, 3.8rem); font-weight: 900; letter-spacing: -2px; color: #fff; text-transform: uppercase; }
+        .sub { color: var(--gold); font-family: monospace; font-size: clamp(0.65rem, 2vw, 0.8rem); letter-spacing: 5px; margin-top: 15px; }
 
-        section { margin-bottom: 150px; }
-        h2 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; color: var(--gold); margin-bottom: 30px; opacity: 0.6; }
+        section { margin-bottom: 180px; }
+        h2 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 5px; color: var(--gold); margin-bottom: 40px; opacity: 0.6; }
         
-        .intel-pitch { font-size: clamp(1.1rem, 4vw, 1.5rem); font-weight: 300; line-height: 1.4; color: #fff; margin-bottom: 40px; }
-        .abstract { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 60px; border-left: 1px solid #222; padding-left: 20px; max-width: 600px; }
+        .intel-pitch { font-size: clamp(1.2rem, 4vw, 1.6rem); font-weight: 300; line-height: 1.5; color: #fff; margin-bottom: 40px; }
+        .abstract { font-size: 0.95rem; color: var(--text-dim); margin-bottom: 60px; border-left: 1px solid #222; padding-left: 25px; max-width: 650px; }
 
-        /* GRID FOR DESKTOP, STACK FOR MOBILE */
         .vector-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
+            gap: 50px;
         }
 
-        .vector-block h3 { font-size: 1.1rem; color: #fff; margin-bottom: 12px; letter-spacing: 0.5px; }
-        .vector-block p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; }
+        .vector-block h3 { font-size: 1.15rem; color: #fff; margin-bottom: 15px; letter-spacing: 0.5px; font-weight: 600; }
+        .vector-block p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.9; }
 
         /* --- CAPACITED BUTTON --- */
         .btn-protocol {
@@ -118,12 +142,13 @@
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 6px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             border: 1px solid rgba(212, 175, 55, 0.2);
             backdrop-filter: blur(10px);
-            margin-top: 40px;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
+            margin: 40px auto;
+            opacity: 1;
             transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease;
         }
 
@@ -134,20 +159,10 @@
             transition: opacity 0.1s ease; 
         }
 
-        footer { margin-top: 200px; padding-bottom: 80px; border-top: 1px solid #111; padding-top: 60px; text-align: center; }
-        .mail { color: var(--gold); text-decoration: none; font-weight: bold; font-size: 1.2rem; }
-        .legal { font-size: 0.6rem; color: #252525; margin-top: 40px; letter-spacing: 3px; text-transform: uppercase; line-height: 2.8; }
+        footer { margin-top: 250px; padding-bottom: 100px; border-top: 1px solid #111; padding-top: 80px; text-align: center; }
+        .mail { color: var(--gold); text-decoration: none; font-weight: bold; font-size: 1.3rem; letter-spacing: 1px; }
+        .legal { font-size: 0.65rem; color: #252525; margin-top: 50px; letter-spacing: 4px; text-transform: uppercase; line-height: 2.8; }
 
-        /* --- PARALLAX STAR FIELD --- */
-        #star-field {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 120%;
-            z-index: -3;
-            pointer-events: none;
-            will-change: transform;
-        }
-        .star { position: absolute; background: #fff; border-radius: 50%; opacity: 0.4; }
     </style>
 </head>
 <body>
@@ -181,11 +196,9 @@
                 Hardening critical digital infrastructure through <strong>Adaptive Resilience</strong> and <strong>Signal Integrity</strong>.
             </div>
             <div class="abstract">
-                EPICS SecTech & Research Pvt. Ltd. operates at the intersection of SecOps and Computational Media. We specialize in cross-domain intelligence for high-stakes environments.
+                EPICS SecTech & Research Pvt. Ltd. operates at the intersection of SecOps and Computational Media. We specialize in cross-domain intelligence for high-stakes environments, ensuring both infrastructure security and narrative sovereignty.
             </div>
-            <div style="display: flex; justify-content: center;">
-                <a href="mailto:info@epicsec.in" class="btn-protocol">Initiate Protocol</a>
-            </div>
+            <a href="mailto:info@epicsec.in" class="btn-protocol">Initiate Protocol</a>
         </section>
 
         <section>
@@ -193,7 +206,7 @@
             <div class="vector-grid">
                 <div class="vector-block">
                     <h3>0x01 / Infrastructure Fortification</h3>
-                    <p>Strategic implementation of Zero-Trust architectures and proactive threat modeling. We design resilient digital ecosystems that maintain operational continuity.</p>
+                    <p>Strategic implementation of Zero-Trust architectures and proactive threat modeling. We design resilient digital ecosystems that maintain operational continuity under duress.</p>
                 </div>
 
                 <div class="vector-block">
@@ -209,6 +222,7 @@
         </section>
 
         <footer>
+            <p style="font-size: 0.65rem; color: #444; letter-spacing: 5px; margin-bottom: 20px; text-transform: uppercase;">Direct Intelligence Channel</p>
             <a href="mailto:info@epicsec.in" class="mail">info@epicsec.in</a>
             <p class="legal">
                 BENGALURU, INDIA // EST. 2026<br>
@@ -219,7 +233,7 @@
     </div>
 
     <script>
-        // 1. STAR GENERATION WITH PARALLAX
+        // 1. STAR GENERATION WITH DEPTH PARALLAX
         const field = document.getElementById('star-field');
         const stars = [];
         for (let i = 0; i < 45; i++) {
@@ -236,16 +250,16 @@
             stars.push({ el: star, depth: depth });
         }
 
-        // 2. RESPONSIVE SCROLL LOGIC
+        // 2. UNIFIED SCROLL ENGINE
         window.addEventListener('scroll', () => {
             const scrollY = window.scrollY;
             
-            // Mist Fade
+            // Mist Fade (Inverted)
             const mist = document.getElementById('mist-layer');
             const scrollPercent = scrollY / (window.innerHeight * 0.9);
             mist.style.opacity = Math.min(1, scrollPercent);
 
-            // Parallax
+            // Particle Parallax
             stars.forEach(s => {
                 const move = -(scrollY * s.depth);
                 s.el.style.transform = `translateY(${move}px)`;
