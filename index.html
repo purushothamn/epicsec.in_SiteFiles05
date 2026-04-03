@@ -2,39 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EPICS | Strategic SecTech & Narrative Research</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EPICS | Strategic SecTech & Research</title>
     <style>
         :root {
             --bg: #020202;
             --gold: #d4af37;
-            --gold-low: rgba(212, 175, 55, 0.15);
+            --gold-low: rgba(212, 175, 55, 0.12);
             --aqua: #00ffff;
             --royal: #4169e1;
             --text: #ececec;
-            --text-dim: #888;
+            --text-dim: #777;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Inter', -apple-system, system-ui, sans-serif;
             overflow-x: hidden;
-            line-height: 1.7;
-            min-height: 280vh; 
+            line-height: 1.6;
+            min-height: 250vh;
         }
 
-        /* --- THE CENTRAL VIEWFINDER --- */
+        /* --- FLUID VIEWFINDER (Responsive Scaling) --- */
         .viewfinder {
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 280px; height: 380px;
+            /* Scales between 260px and 450px based on screen size */
+            width: clamp(260px, 60vw, 450px); 
+            height: clamp(350px, 70vh, 600px);
             border: 1px solid rgba(212, 175, 55, 0.05);
             z-index: 10;
             pointer-events: none;
+            transition: all 0.5s ease;
         }
         .viewfinder::before, .viewfinder::after {
             content: ""; position: absolute; width: 20px; height: 20px;
@@ -43,35 +46,17 @@
         .viewfinder::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
         .viewfinder::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
 
-        /* --- THE INVERTED MIST --- */
+        /* --- MIST & MERKABAH (Unified Background) --- */
         #mist-layer {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
             z-index: -2;
-            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.15) 0%, rgba(65, 105, 225, 0.05) 50%, transparent 90%);
+            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.12) 0%, rgba(65, 105, 225, 0.04) 50%, transparent 90%);
             pointer-events: none;
             opacity: 0;
-            transition: opacity 0.4s ease;
         }
 
-        /* --- PARALLAX STAR FIELD --- */
-        #star-field {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 120%; /* Extra height for scroll travel */
-            z-index: -3;
-            pointer-events: none;
-            will-change: transform;
-        }
-        .star {
-            position: absolute;
-            background: #fff;
-            border-radius: 50%;
-            opacity: 0.4;
-        }
-
-        /* --- MERKABAH ENGINE --- */
         .merkabah-layer {
             position: fixed;
             top: 50%; left: 50%;
@@ -79,40 +64,47 @@
             z-index: -1;
             width: 100vw; height: 100vh;
             display: flex; justify-content: center; align-items: center;
-            pointer-events: none;
         }
         #merkabah-svg {
-            width: 90%; max-width: 600px;
+            width: 90%; 
+            max-width: 700px;
             animation: glacial-breath 60s ease-in-out infinite;
         }
         .m-line { fill: none; stroke: var(--aqua); stroke-width: 1.5; mix-blend-mode: difference; }
         @keyframes glacial-breath {
-            0%, 100% { opacity: 0.15; transform: scale(1); filter: blur(1px); }
-            50% { opacity: 0.45; transform: scale(1.03); filter: blur(0px); }
+            0%, 100% { opacity: 0.15; transform: scale(1); filter: blur(1.2px); }
+            50% { opacity: 0.45; transform: scale(1.05); filter: blur(0px); }
         }
 
-        /* --- CONTENT SHELL --- */
+        /* --- RESPONSIVE CONTENT SHELL --- */
         .shell {
-            max-width: 500px;
+            width: 90%;
+            max-width: 800px; /* Wider for Desktop */
             margin: 0 auto;
-            padding: 120px 30px;
+            padding: 100px 0;
             position: relative;
             z-index: 5;
         }
 
-        header { margin-bottom: 150px; text-align: center; }
+        header { margin-bottom: clamp(80px, 15vh, 150px); text-align: center; }
         .marker { height: 1px; width: 60px; background: var(--gold); margin: 0 auto 30px; }
-        h1 { font-size: 3rem; font-weight: 900; letter-spacing: -2px; color: #fff; text-transform: uppercase; }
-        .sub { color: var(--gold); font-family: monospace; font-size: 0.7rem; letter-spacing: 5px; margin-top: 15px; }
+        h1 { font-size: clamp(2rem, 8vw, 3.5rem); font-weight: 900; letter-spacing: -2px; color: #fff; text-transform: uppercase; }
+        .sub { color: var(--gold); font-family: monospace; font-size: clamp(0.6rem, 2vw, 0.75rem); letter-spacing: 4px; margin-top: 15px; }
 
-        section { margin-bottom: 180px; }
+        section { margin-bottom: 150px; }
         h2 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; color: var(--gold); margin-bottom: 30px; opacity: 0.6; }
         
-        .intel-pitch { font-size: 1.35rem; font-weight: 300; line-height: 1.4; color: #fff; margin-bottom: 40px; }
-        .abstract { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 60px; border-left: 1px solid #222; padding-left: 25px; }
+        .intel-pitch { font-size: clamp(1.1rem, 4vw, 1.5rem); font-weight: 300; line-height: 1.4; color: #fff; margin-bottom: 40px; }
+        .abstract { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 60px; border-left: 1px solid #222; padding-left: 20px; max-width: 600px; }
 
-        .vector-block { margin-bottom: 60px; }
-        .vector-block h3 { font-size: 1.1rem; color: #fff; margin-bottom: 12px; letter-spacing: 0.5px; font-weight: 600; }
+        /* GRID FOR DESKTOP, STACK FOR MOBILE */
+        .vector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .vector-block h3 { font-size: 1.1rem; color: #fff; margin-bottom: 12px; letter-spacing: 0.5px; }
         .vector-block p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.8; }
 
         /* --- CAPACITED BUTTON --- */
@@ -129,21 +121,33 @@
             font-size: 0.75rem;
             border: 1px solid rgba(212, 175, 55, 0.2);
             backdrop-filter: blur(10px);
-            opacity: 1;
-            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease, background 0.5s ease;
+            margin-top: 40px;
+            width: 100%;
+            max-width: 400px;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease;
         }
 
         .btn-protocol:active {
-            opacity: 0.35; 
+            opacity: 0.3; 
             background: var(--gold-low);
-            border-color: var(--gold);
             transform: scale(0.97);
             transition: opacity 0.1s ease; 
         }
 
-        footer { margin-top: 250px; padding-bottom: 100px; border-top: 1px solid #111; padding-top: 80px; text-align: center; }
+        footer { margin-top: 200px; padding-bottom: 80px; border-top: 1px solid #111; padding-top: 60px; text-align: center; }
         .mail { color: var(--gold); text-decoration: none; font-weight: bold; font-size: 1.2rem; }
-        .legal { font-size: 0.6rem; color: #252525; margin-top: 50px; letter-spacing: 3px; text-transform: uppercase; line-height: 2.8; }
+        .legal { font-size: 0.6rem; color: #252525; margin-top: 40px; letter-spacing: 3px; text-transform: uppercase; line-height: 2.8; }
+
+        /* --- PARALLAX STAR FIELD --- */
+        #star-field {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 120%;
+            z-index: -3;
+            pointer-events: none;
+            will-change: transform;
+        }
+        .star { position: absolute; background: #fff; border-radius: 50%; opacity: 0.4; }
     </style>
 </head>
 <body>
@@ -179,22 +183,28 @@
             <div class="abstract">
                 EPICS SecTech & Research Pvt. Ltd. operates at the intersection of SecOps and Computational Media. We specialize in cross-domain intelligence for high-stakes environments.
             </div>
-            <a href="mailto:info@epicsec.in" class="btn-protocol">Initiate Protocol</a>
+            <div style="display: flex; justify-content: center;">
+                <a href="mailto:info@epicsec.in" class="btn-protocol">Initiate Protocol</a>
+            </div>
         </section>
 
         <section>
             <h2>Operational Vectors</h2>
-            <div class="vector-block">
-                <h3>0x01 / Infrastructure Fortification</h3>
-                <p>Strategic implementation of Zero-Trust architectures and proactive threat modeling. We design resilient digital ecosystems that maintain operational continuity.</p>
-            </div>
-            <div class="vector-block">
-                <h3>0x02 / Narrative & Signal Engineering</h3>
-                <p>High-fidelity visual production and technical brand integrity. Utilizing proprietary post-production workflows to protect digital presence.</p>
-            </div>
-            <div class="vector-block">
-                <h3>0x03 / Computational R&D</h3>
-                <p>Open-source intelligence (OSINT) gathering and sustainable infrastructure scaling via targeted AI system integration.</p>
+            <div class="vector-grid">
+                <div class="vector-block">
+                    <h3>0x01 / Infrastructure Fortification</h3>
+                    <p>Strategic implementation of Zero-Trust architectures and proactive threat modeling. We design resilient digital ecosystems that maintain operational continuity.</p>
+                </div>
+
+                <div class="vector-block">
+                    <h3>0x02 / Narrative & Signal Engineering</h3>
+                    <p>High-fidelity visual production and technical brand integrity. Utilizing proprietary post-production workflows to define and protect digital presence.</p>
+                </div>
+
+                <div class="vector-block">
+                    <h3>0x03 / Computational R&D</h3>
+                    <p>Open-source intelligence (OSINT) gathering and sustainable infrastructure scaling via targeted AI system integration.</p>
+                </div>
             </div>
         </section>
 
@@ -202,32 +212,31 @@
             <a href="mailto:info@epicsec.in" class="mail">info@epicsec.in</a>
             <p class="legal">
                 BENGALURU, INDIA // EST. 2026<br>
-                © EPICS SECTECH & RESEARCH PVT. LTD.
+                © EPICS SECTECH & RESEARCH PVT. LTD.<br>
+                DISCREET ADVISORY & TECHNICAL EXCELLENCE.
             </p>
         </footer>
     </div>
 
     <script>
-        // 1. STAR GENERATION WITH DEPTH
+        // 1. STAR GENERATION WITH PARALLAX
         const field = document.getElementById('star-field');
         const stars = [];
         for (let i = 0; i < 45; i++) {
             let star = document.createElement('div');
             star.className = 'star';
             let size = Math.random() * 2 + 0.5;
-            let depth = size * 0.15; // Larger stars = more parallax movement
-            
+            let depth = size * 0.12; 
             star.style.width = size + 'px';
             star.style.height = size + 'px';
             star.style.top = Math.random() * 120 + 'vh';
             star.style.left = Math.random() * 100 + 'vw';
-            star.style.opacity = (size / 2.5) * 0.6; // Distant stars are dimmer
-            
+            star.style.opacity = (size / 2.5) * 0.5;
             field.appendChild(star);
-            stars.push({ el: star, depth: depth, initialTop: parseFloat(star.style.top) });
+            stars.push({ el: star, depth: depth });
         }
 
-        // 2. OPTIMIZED PARALLAX & MIST SCROLL
+        // 2. RESPONSIVE SCROLL LOGIC
         window.addEventListener('scroll', () => {
             const scrollY = window.scrollY;
             
@@ -236,7 +245,7 @@
             const scrollPercent = scrollY / (window.innerHeight * 0.9);
             mist.style.opacity = Math.min(1, scrollPercent);
 
-            // Particle Parallax
+            // Parallax
             stars.forEach(s => {
                 const move = -(scrollY * s.depth);
                 s.el.style.transform = `translateY(${move}px)`;
